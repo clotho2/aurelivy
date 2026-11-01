@@ -5,12 +5,6 @@
   to the gift-card message automatically (no edit needed on Dec 13).
 {%- endcomment -%}
 
-{%- if section.settings.load_fonts -%}
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Jost:wght@400;500&display=swap" rel="stylesheet">
-{%- endif -%}
-
 {%- style -%}
   #AiHero-{{ section.id }} {
     --ai-forest: {{ section.settings.color_forest }};
@@ -117,7 +111,10 @@
 
         <div class="ai-hero__countdown" data-countdown>
           <p class="ai-hero__countdown-label">{{ section.settings.countdown_label | escape }}</p>
-          <div class="ai-hero__timer" role="timer" aria-live="off" aria-hidden="true">
+          {%- if section.settings.cutoff_sr != blank -%}
+            <p class="ai-visually-hidden">{{ section.settings.cutoff_sr | escape }}</p>
+          {%- endif -%}
+          <div class="ai-hero__timer" aria-hidden="true">
             <span class="ai-hero__unit"><span class="ai-hero__num" data-unit="d">--</span><span class="ai-hero__lbl">Days</span></span>
             <span class="ai-hero__unit"><span class="ai-hero__num" data-unit="h">--</span><span class="ai-hero__lbl">Hrs</span></span>
             <span class="ai-hero__unit"><span class="ai-hero__num" data-unit="m">--</span><span class="ai-hero__lbl">Min</span></span>
@@ -218,7 +215,7 @@
   .ai-hero__eyebrow {
     display: inline-flex; align-items: center; gap: 12px;
     margin: 0 0 18px;
-    font-family: 'Jost', var(--font-body-family), sans-serif;
+    font-family: var(--font-body-family);
     font-size: 12px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase;
     color: var(--ai-forest);
   }
@@ -226,7 +223,7 @@
 
   .ai-hero__heading {
     margin: 0 0 16px;
-    font-family: 'Cormorant Garamond', var(--font-heading-family), serif;
+    font-family: var(--font-heading-family);
     font-weight: 500;
     font-size: clamp(42px, 6.2vw, 76px);
     line-height: 1.02;
@@ -235,20 +232,20 @@
   }
   .ai-hero__sub {
     margin: 0 0 22px;
-    font-family: 'Jost', var(--font-body-family), sans-serif;
+    font-family: var(--font-body-family);
     font-size: 17px; line-height: 1.6;
     color: var(--ai-text);
   }
   .ai-hero__price-row {
     display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px 14px;
     margin: 0 0 22px;
-    font-family: 'Jost', var(--font-body-family), sans-serif;
+    font-family: var(--font-body-family);
     color: var(--ai-text);
   }
   .ai-hero__inner--center .ai-hero__price-row,
   .ai-hero__inner--center .ai-hero__actions,
   .ai-hero__inner--center .ai-hero__timer { justify-content: center; }
-  .ai-hero__price { font-family: 'Cormorant Garamond', var(--font-heading-family), serif; font-size: 34px; font-weight: 600; color: var(--ai-forest); }
+  .ai-hero__price { font-family: var(--font-heading-family); font-size: 34px; font-weight: 600; color: var(--ai-forest); }
   .ai-hero__panel--bare .ai-hero__price { color: var(--ai-alabaster); }
   .ai-hero__compare { font-size: 17px; opacity: 0.7; }
   .ai-hero__promo {
@@ -260,7 +257,7 @@
   .ai-hero__countdown { margin: 0 0 26px; }
   .ai-hero__countdown-label {
     margin: 0 0 10px;
-    font-family: 'Jost', var(--font-body-family), sans-serif;
+    font-family: var(--font-body-family);
     font-size: 13px; font-weight: 500; letter-spacing: 0.06em;
     color: var(--ai-forest);
   }
@@ -272,14 +269,14 @@
     border: 1px solid var(--ai-gold);
   }
   .ai-hero__num {
-    font-family: 'Cormorant Garamond', var(--font-heading-family), serif;
+    font-family: var(--font-heading-family);
     font-size: 32px; font-weight: 600; line-height: 1;
     color: var(--ai-gold);
     font-variant-numeric: tabular-nums;
   }
   .ai-hero__lbl {
     margin-top: 6px;
-    font-family: 'Jost', var(--font-body-family), sans-serif;
+    font-family: var(--font-body-family);
     font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
     color: var(--ai-alabaster);
   }
@@ -288,7 +285,7 @@
   .ai-hero__btn {
     display: inline-flex; align-items: center; justify-content: center;
     min-height: 52px; padding: 0 34px;
-    font-family: 'Jost', var(--font-body-family), sans-serif;
+    font-family: var(--font-body-family);
     font-size: 14px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; text-decoration: none;
     background: var(--ai-forest); color: var(--ai-alabaster);
     border: 1px solid var(--ai-forest);
@@ -298,13 +295,13 @@
   .ai-hero__panel--bare .ai-hero__btn { background: var(--ai-alabaster); color: var(--ai-forest); border-color: var(--ai-alabaster); }
   .ai-hero__btn:focus-visible, .ai-hero__link:focus-visible { outline: 2px solid var(--ai-gold); outline-offset: 3px; }
   .ai-hero__link {
-    font-family: 'Jost', var(--font-body-family), sans-serif;
+    font-family: var(--font-body-family);
     font-size: 14px; letter-spacing: 0.08em; color: var(--ai-forest);
     text-decoration: underline; text-underline-offset: 5px; text-decoration-color: var(--ai-gold);
   }
   .ai-hero__note {
     margin: 0;
-    font-family: 'Jost', var(--font-body-family), sans-serif;
+    font-family: var(--font-body-family);
     font-size: 13px; color: var(--ai-text); opacity: 0.85;
   }
 
@@ -421,6 +418,7 @@
     { "type": "header", "content": "Countdown" },
     { "type": "text", "id": "cutoff", "label": "Cutoff (ISO date-time with offset)", "default": "2026-12-12T23:59:00-05:00", "info": "Format: YYYY-MM-DDTHH:MM:SS-05:00 (Eastern). The hero switches to the 'after cutoff' content at this moment." },
     { "type": "text", "id": "countdown_label", "label": "Countdown label", "default": "Order by Dec 12 for Christmas delivery" },
+    { "type": "text", "id": "cutoff_sr", "label": "Cutoff for screen readers", "default": "Order by Saturday, December 12 at 11:59 pm Eastern for Christmas delivery.", "info": "Read aloud instead of the ticking timer." },
 
     { "type": "header", "content": "After cutoff" },
     { "type": "text", "id": "post_eyebrow", "label": "Eyebrow", "default": "Delivered instantly" },
@@ -429,12 +427,11 @@
     { "type": "text", "id": "post_button_label", "label": "Button label", "default": "Send a digital gift card" },
     { "type": "url", "id": "post_button_link", "label": "Button link", "info": "Link to your gift card product." },
 
-    { "type": "header", "content": "Brand colors and fonts" },
+    { "type": "header", "content": "Brand colors" },
     { "type": "color", "id": "color_forest", "label": "Forest Ink", "default": "#1F3A2E" },
     { "type": "color", "id": "color_alabaster", "label": "Alabaster", "default": "#F4F0E8" },
     { "type": "color", "id": "color_gold", "label": "Antique Gold", "default": "#B8955A" },
-    { "type": "color", "id": "color_text", "label": "Body text", "default": "#1E1E1C" },
-    { "type": "checkbox", "id": "load_fonts", "label": "Load Cormorant Garamond + Jost from Google Fonts", "default": true }
+    { "type": "color", "id": "color_text", "label": "Body text", "default": "#1E1E1C" }
   ],
   "presets": [
     { "name": "A&I Holiday Hero" }

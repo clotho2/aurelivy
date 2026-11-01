@@ -1,0 +1,52 @@
+{%- doc -%}
+  Aurel & Ivy delivery promise, shown under Add to cart.
+  Dates are calculated in the browser (US Eastern) from the "Aurel & Ivy" theme settings.
+
+  @param {product} [product] - Hidden for gift cards.
+
+  @example
+  {% render 'ai-delivery-promise', product: product %}
+{%- enddoc -%}
+
+{%- unless product.gift_card? -%}
+  <script src="{{ 'ai-delivery-promise.js' | asset_url }}" defer="defer"></script>
+  <ai-delivery-promise
+    class="ai-delivery"
+    data-min-days="{{ settings.ai_delivery_min_days }}"
+    data-max-days="{{ settings.ai_delivery_max_days }}"
+    data-holidays="{{ settings.ai_holidays | escape }}"
+    data-cutoff="{{ settings.ai_holiday_cutoff | escape }}"
+    data-christmas="{{ settings.ai_christmas_date | escape }}"
+    hidden
+  >
+    <p class="ai-delivery__line">
+      {{- 'icon-truck.svg' | inline_asset_content -}}
+      <span>Order today, arrives <strong data-range></strong></span>
+    </p>
+    <p class="ai-delivery__sub" data-phase="before-cutoff" hidden>
+      {{ settings.ai_holiday_cutoff_label | escape }} · Ships from the US
+    </p>
+    <p class="ai-delivery__sub" data-phase="after-cutoff" hidden>
+      Christmas delivery is no longer guaranteed.
+      {%- if settings.ai_gift_card_url != blank %}
+        <a href="{{ settings.ai_gift_card_url }}">Send a digital gift card</a>, delivered instantly.
+      {%- endif -%}
+    </p>
+    <p class="ai-delivery__sub" data-phase="normal" hidden>Ships from the US in 1–2 business days</p>
+  </ai-delivery-promise>
+
+  <noscript>
+    <p class="ai-delivery__sub">Ships in 1–2 business days · Arrives in 4–7 business days</p>
+  </noscript>
+
+  <style>
+    .ai-delivery { display: block; margin: 1.2rem 0 0; padding: 1.2rem 1.4rem; border: 1px solid #a8b5a0; background: rgba(217, 208, 193, 0.35); }
+    .ai-delivery[hidden] { display: none; }
+    .ai-delivery__line { display: flex; align-items: center; gap: 0.8rem; margin: 0; font-size: 1.5rem; line-height: 1.4; }
+    .ai-delivery__line svg { width: 2rem; height: 2rem; flex: 0 0 2rem; color: #1f3a2e; }
+    .ai-delivery__line strong { color: #1f3a2e; font-weight: var(--font-body-weight-bold); }
+    .ai-delivery__sub { margin: 0.4rem 0 0 2.8rem; font-size: 1.3rem; line-height: 1.5; color: #6f6153; }
+    .ai-delivery__sub[hidden] { display: none; }
+    .ai-delivery__sub a { color: #1f3a2e; text-underline-offset: 0.3rem; }
+  </style>
+{%- endunless -%}

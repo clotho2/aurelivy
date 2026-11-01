@@ -11,17 +11,12 @@
   Keep the gift product OUT of the builder collection.
 {%- endcomment -%}
 
-{%- if section.settings.load_fonts -%}
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Jost:wght@400;500&display=swap" rel="stylesheet">
-{%- endif -%}
-
 {%- style -%}
   #AiBuilder-{{ section.id }} {
     --ai-forest: {{ section.settings.color_forest }};
     --ai-alabaster: {{ section.settings.color_alabaster }};
     --ai-stone: {{ section.settings.color_stone }};
+    --ai-moss: {{ section.settings.color_moss }};
     --ai-gold: {{ section.settings.color_gold }};
     --ai-text: {{ section.settings.color_text }};
   }
@@ -32,6 +27,15 @@
   assign gift_variant = section.settings.gift_product.selected_or_first_available_variant
 -%}
 
+{%- liquid
+  assign builder_ready = true
+  if builder_collection == blank or builder_collection.products_count == 0
+    assign builder_ready = false
+  endif
+-%}
+
+{%- if builder_ready or request.design_mode -%}
+<div id="build-your-box" class="ai-builder__anchor"></div>
 <section id="AiBuilder-{{ section.id }}" class="ai-builder" aria-labelledby="AiBuilderHeading-{{ section.id }}">
   <div class="ai-builder__wrap">
     <header class="ai-builder__header">
@@ -51,8 +55,8 @@
       </ol>
     </header>
 
-    {%- if builder_collection == blank or builder_collection.products_count == 0 -%}
-      <p class="ai-builder__empty">Choose the "Gift Box Builder" collection in this section's settings.</p>
+    {%- unless builder_ready -%}
+      <p class="ai-builder__empty">Choose the "Gift Box Builder" collection in this section's settings. Shoppers won't see this section until it has products.</p>
     {%- else -%}
       <ai-gift-builder
         class="ai-builder__body"
@@ -142,36 +146,38 @@
           <p class="ai-summary__fine">{{ section.settings.fine_print | escape }}</p>
         </aside>
       </ai-gift-builder>
-    {%- endif -%}
+    {%- endunless -%}
   </div>
 </section>
+{%- endif -%}
 
 {% stylesheet %}
+  .ai-builder__anchor { scroll-margin-top: 80px; }
   .ai-builder { background: var(--ai-alabaster); color: var(--ai-text); padding: clamp(48px, 7vw, 96px) 0; }
   .ai-builder [hidden] { display: none !important; }
   .ai-builder__wrap { max-width: 1280px; margin: 0 auto; padding: 0 16px; }
   .ai-builder__header { max-width: 680px; margin: 0 auto clamp(28px, 4vw, 48px); text-align: center; }
   .ai-builder__eyebrow {
     margin: 0 0 12px;
-    font-family: 'Jost', var(--font-body-family), sans-serif;
+    font-family: var(--font-body-family);
     font-size: 12px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase;
     color: var(--ai-forest);
   }
   .ai-builder__heading {
     margin: 0 0 14px;
-    font-family: 'Cormorant Garamond', var(--font-heading-family), serif;
+    font-family: var(--font-heading-family);
     font-weight: 500; font-size: clamp(34px, 4.6vw, 56px); line-height: 1.05;
     color: var(--ai-forest);
   }
-  .ai-builder__sub { margin: 0 0 20px; font-family: 'Jost', var(--font-body-family), sans-serif; font-size: 17px; line-height: 1.6; }
+  .ai-builder__sub { margin: 0 0 20px; font-family: var(--font-body-family); font-size: 17px; line-height: 1.6; }
   .ai-builder__tiers {
     display: inline-flex; flex-wrap: wrap; justify-content: center; gap: 10px;
     margin: 0; padding: 0; list-style: none;
-    font-family: 'Jost', var(--font-body-family), sans-serif; font-size: 14px;
+    font-family: var(--font-body-family); font-size: 14px;
   }
   .ai-builder__tiers li { padding: 8px 14px; border: 1px solid var(--ai-gold); background: #fff; }
   .ai-builder__tiers strong { color: var(--ai-forest); font-weight: 500; }
-  .ai-builder__empty { text-align: center; font-family: 'Jost', var(--font-body-family), sans-serif; }
+  .ai-builder__empty { text-align: center; font-family: var(--font-body-family); }
 
   .ai-builder__body { display: grid; grid-template-columns: 1fr; gap: 28px; align-items: start; }
   @media (min-width: 990px) { .ai-builder__body { grid-template-columns: minmax(0, 1fr) 360px; } }
@@ -184,11 +190,12 @@
     background: #fff; border: 1px solid var(--ai-stone);
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
   }
+  .ai-card:hover { border-color: var(--ai-moss); }
   .ai-card.is-selected { border-color: var(--ai-forest); box-shadow: inset 0 0 0 1px var(--ai-forest); }
   .ai-card__media { display: block; aspect-ratio: 4 / 5; background: var(--ai-stone); overflow: hidden; }
   .ai-card__img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .ai-card__info { padding: 14px 14px 8px; flex: 1; font-family: 'Jost', var(--font-body-family), sans-serif; }
-  .ai-card__title { margin: 0 0 6px; font-family: 'Cormorant Garamond', var(--font-heading-family), serif; font-size: 21px; font-weight: 600; line-height: 1.15; }
+  .ai-card__info { padding: 14px 14px 8px; flex: 1; font-family: var(--font-body-family); }
+  .ai-card__title { margin: 0 0 6px; font-family: var(--font-heading-family); font-size: 21px; font-weight: 600; line-height: 1.15; }
   .ai-card__title a { color: var(--ai-forest); text-decoration: none; }
   .ai-card__benefit { margin: 0 0 8px; font-size: 13px; line-height: 1.45; color: var(--ai-text); opacity: 0.85; }
   .ai-card__price { margin: 0; font-size: 14px; font-weight: 500; }
@@ -200,16 +207,16 @@
   .ai-card__step:hover:not(:disabled) { background: var(--ai-alabaster); }
   .ai-card__step:disabled { opacity: 0.3; cursor: default; }
   .ai-card__step:focus-visible, .ai-summary__btn:focus-visible { outline: 2px solid var(--ai-gold); outline-offset: 2px; }
-  .ai-card__qty { font-family: 'Jost', var(--font-body-family), sans-serif; font-size: 16px; font-weight: 500; min-width: 2ch; text-align: center; }
-  .ai-card__soldout { margin: 6px 14px 14px; font-family: 'Jost', var(--font-body-family), sans-serif; font-size: 13px; opacity: 0.7; }
+  .ai-card__qty { font-family: var(--font-body-family); font-size: 16px; font-weight: 500; min-width: 2ch; text-align: center; }
+  .ai-card__soldout { margin: 6px 14px 14px; font-family: var(--font-body-family); font-size: 13px; opacity: 0.7; }
 
   .ai-summary {
     position: sticky; top: 24px;
     padding: 24px;
     background: #fff; border: 1px solid var(--ai-gold);
-    font-family: 'Jost', var(--font-body-family), sans-serif;
+    font-family: var(--font-body-family);
   }
-  .ai-summary__title { margin: 0 0 16px; font-family: 'Cormorant Garamond', var(--font-heading-family), serif; font-size: 26px; font-weight: 600; color: var(--ai-forest); }
+  .ai-summary__title { margin: 0 0 16px; font-family: var(--font-heading-family); font-size: 26px; font-weight: 600; color: var(--ai-forest); }
   .ai-meter__track { height: 6px; background: var(--ai-stone); overflow: hidden; }
   .ai-meter__fill { height: 100%; width: 0; background: linear-gradient(90deg, var(--ai-forest), var(--ai-gold)); transition: width 0.3s ease; }
   .ai-meter__marks { display: flex; justify-content: space-between; margin-top: 6px; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; opacity: 0.8; }
@@ -222,9 +229,10 @@
   .ai-summary__btn {
     width: 100%; min-height: 54px; border: 1px solid var(--ai-forest); cursor: pointer;
     background: var(--ai-forest); color: var(--ai-alabaster);
-    font-family: 'Jost', var(--font-body-family), sans-serif;
+    font-family: var(--font-body-family);
     font-size: 14px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase;
   }
+  .ai-summary__btn:hover:not(:disabled) { background: var(--ai-moss); border-color: var(--ai-moss); }
   .ai-summary__btn:disabled { opacity: 0.45; cursor: default; }
   .ai-summary__btn[aria-busy="true"] { opacity: 0.7; }
   .ai-summary__error { margin: 10px 0 0; font-size: 13px; color: #8A2B2B; }
@@ -422,15 +430,15 @@
     { "type": "range", "id": "tier2_pct", "label": "Tier 2: % off", "min": 5, "max": 50, "step": 5, "unit": "%", "default": 25 },
     { "type": "product", "id": "gift_product", "label": "Free gift at tier 2 (optional)", "info": "Added to the cart automatically at tier 2. Make it free with a Buy X Get Y automatic discount." },
     { "type": "text", "id": "gift_label", "label": "Gift label", "default": "Free holiday gift box" },
-    { "type": "text", "id": "fine_print", "label": "Fine print", "default": "Savings apply automatically at checkout. Complimentary gift shipping on orders $100+." },
+    { "type": "text", "id": "fine_print", "label": "Fine print", "default": "Savings apply automatically at checkout. The free gift box applies while your box has 3 or more items. Complimentary gift shipping on orders $100+." },
 
-    { "type": "header", "content": "Brand colors and fonts" },
+    { "type": "header", "content": "Brand colors" },
     { "type": "color", "id": "color_forest", "label": "Forest Ink", "default": "#1F3A2E" },
     { "type": "color", "id": "color_alabaster", "label": "Alabaster", "default": "#F4F0E8" },
     { "type": "color", "id": "color_stone", "label": "Warm Stone", "default": "#D9D0C1" },
+    { "type": "color", "id": "color_moss", "label": "Deep Moss (hover)", "default": "#2F4F3E" },
     { "type": "color", "id": "color_gold", "label": "Antique Gold", "default": "#B8955A" },
-    { "type": "color", "id": "color_text", "label": "Body text", "default": "#1E1E1C" },
-    { "type": "checkbox", "id": "load_fonts", "label": "Load Cormorant Garamond + Jost from Google Fonts", "default": true }
+    { "type": "color", "id": "color_text", "label": "Body text", "default": "#1E1E1C" }
   ],
   "presets": [
     { "name": "A&I Gift Box Builder" }

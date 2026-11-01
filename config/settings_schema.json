@@ -1466,5 +1466,76 @@
         "label": "t:settings_schema.customer_accounts.settings.customer_account_menu.label"
       }
     ]
+  },
+  {
+    "name": "Aurel & Ivy",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Shipping"
+      },
+      {
+        "type": "number",
+        "id": "ai_free_shipping_threshold",
+        "label": "Free shipping threshold (USD)",
+        "default": 100,
+        "info": "Shown in the cart meter. Must match the free shipping rate in Settings → Shipping and delivery."
+      },
+      {
+        "type": "header",
+        "content": "Delivery promise"
+      },
+      {
+        "type": "range",
+        "id": "ai_delivery_min_days",
+        "label": "Earliest arrival (business days after order)",
+        "min": 1,
+        "max": 15,
+        "step": 1,
+        "default": 4
+      },
+      {
+        "type": "range",
+        "id": "ai_delivery_max_days",
+        "label": "Latest arrival (business days after order)",
+        "min": 2,
+        "max": 20,
+        "step": 1,
+        "default": 7
+      },
+      {
+        "type": "text",
+        "id": "ai_holiday_cutoff",
+        "label": "Holiday order cutoff",
+        "default": "2026-12-12T23:59:00-05:00",
+        "info": "Format YYYY-MM-DDTHH:MM:SS-05:00 (Eastern). Leave blank outside the holiday season."
+      },
+      {
+        "type": "text",
+        "id": "ai_holiday_cutoff_label",
+        "label": "Cutoff wording",
+        "default": "Order by Sat, Dec 12 for Christmas delivery"
+      },
+      {
+        "type": "text",
+        "id": "ai_christmas_date",
+        "label": "Holiday date",
+        "default": "2026-12-25",
+        "info": "After this date the holiday messages stop."
+      },
+      {
+        "type": "textarea",
+        "id": "ai_holidays",
+        "label": "Non-shipping days",
+        "default": "2026-11-26, 2026-12-25, 2027-01-01",
+        "info": "Dates skipped in the arrival estimate (YYYY-MM-DD, comma separated)."
+      },
+      {
+        "type": "url",
+        "id": "ai_gift_card_url",
+        "label": "Digital gift card product",
+        "info": "Linked after the holiday cutoff."
+      }
+    ]
   }
 ]

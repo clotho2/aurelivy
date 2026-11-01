@@ -1,0 +1,126 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "settings": {
+        "padding_top": 28,
+        "padding_bottom": 0
+      }
+    },
+    "faq": {
+      "type": "collapsible-content",
+      "blocks": {
+        "faq_1": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "When will my order arrive?",
+            "icon": "truck",
+            "row_content": "<p>Orders ship from the US within 1–2 business days and arrive 4–7 business days after you order. You'll get tracking by email as soon as it ships.</p>"
+          }
+        },
+        "faq_2": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "What's the last day to order for Christmas?",
+            "icon": "stopwatch",
+            "row_content": "<p>Saturday, December 12 at 11:59 pm ET for delivery in the contiguous US. After that, our digital gift card arrives instantly.</p>"
+          }
+        },
+        "faq_3": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Can I ship it straight to the person I'm gifting?",
+            "icon": "box",
+            "row_content": "<p>Yes. Enter their address at checkout.</p>"
+          }
+        },
+        "faq_4": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Do you ship to Alaska, Hawaii or outside the US?",
+            "icon": "map_pin",
+            "row_content": "<p>Not during the holiday season, so we can keep every delivery promise. We'll open more destinations in January.</p>"
+          }
+        },
+        "faq_5": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Is everything vegan?",
+            "icon": "leaf",
+            "row_content": "<p>Yes, every ingredient in every product. Our formulas are COSMOS certified.</p>"
+          }
+        },
+        "faq_6": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "I have sensitive skin. Is it right for me?",
+            "icon": "heart",
+            "row_content": "<p>The formulas suit most skin types and contain essential oils. Patch test on your inner arm 24 hours before first use.</p>"
+          }
+        },
+        "faq_7": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Can I use it while pregnant or nursing?",
+            "icon": "question_mark",
+            "row_content": "<p>Please check with your doctor before starting any new skincare.</p>"
+          }
+        },
+        "faq_8": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "What's the 30-Night Ritual Promise?",
+            "icon": "return",
+            "row_content": "<p>Use the ritual for 30 nights. If you don't love how your skin looks, email us within 30 days of delivery and we'll refund your first order. No need to send it back. First orders only, one per household.</p>"
+          }
+        },
+        "faq_9": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "What if something arrives damaged?",
+            "icon": "chat_bubble",
+            "row_content": "<p>Email a photo within 7 days of delivery and we'll send a replacement at no cost.</p>"
+          }
+        },
+        "faq_10": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Can I combine discount codes?",
+            "icon": "price_tag",
+            "row_content": "<p>One offer per order. Bundle and gift-box savings are already applied.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "faq_1",
+        "faq_2",
+        "faq_3",
+        "faq_4",
+        "faq_5",
+        "faq_6",
+        "faq_7",
+        "faq_8",
+        "faq_9",
+        "faq_10"
+      ],
+      "settings": {
+        "caption": "",
+        "heading": "Shipping, gifting & our promise",
+        "heading_size": "h1",
+        "heading_alignment": "center",
+        "layout": "none",
+        "container_color_scheme": "scheme-2",
+        "color_scheme": "scheme-1",
+        "open_first_collapsible_row": false,
+        "image_ratio": "adapt",
+        "desktop_layout": "image_second",
+        "padding_top": 36,
+        "padding_bottom": 52
+      }
+    }
+  },
+  "order": [
+    "main",
+    "faq"
+  ]
+}

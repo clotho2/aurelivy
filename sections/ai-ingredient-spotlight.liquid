@@ -5,12 +5,6 @@
   Keyboard: Left/Right (or Up/Down) arrows, Home, End.
 {%- endcomment -%}
 
-{%- if section.settings.load_fonts -%}
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Jost:wght@400;500&display=swap" rel="stylesheet">
-{%- endif -%}
-
 {%- style -%}
   #AiSpot-{{ section.id }} {
     --ai-forest: {{ section.settings.color_forest }};
@@ -130,17 +124,17 @@
   .ai-spot__header { max-width: 640px; margin: 0 auto 32px; text-align: center; }
   .ai-spot__eyebrow, .ai-spot__kicker {
     margin: 0 0 12px;
-    font-family: 'Jost', var(--font-body-family), sans-serif;
+    font-family: var(--font-body-family);
     font-size: 12px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase;
     color: var(--ai-forest);
   }
   .ai-spot__heading {
     margin: 0 0 14px;
-    font-family: 'Cormorant Garamond', var(--font-heading-family), serif;
+    font-family: var(--font-heading-family);
     font-weight: 500; font-size: clamp(34px, 4.6vw, 56px); line-height: 1.05;
     color: var(--ai-forest);
   }
-  .ai-spot__sub { margin: 0; font-family: 'Jost', var(--font-body-family), sans-serif; font-size: 17px; line-height: 1.6; }
+  .ai-spot__sub { margin: 0; font-family: var(--font-body-family); font-size: 17px; line-height: 1.6; }
 
   .ai-spot__tablist {
     display: flex; justify-content: center; gap: 4px;
@@ -153,7 +147,7 @@
     padding: 14px 20px;
     border: 0; border-bottom: 2px solid transparent; margin-bottom: -1px;
     background: none; cursor: pointer;
-    font-family: 'Jost', var(--font-body-family), sans-serif;
+    font-family: var(--font-body-family);
     font-size: 14px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
     color: var(--ai-text); opacity: 0.7;
     transition: opacity 0.2s ease, border-color 0.2s ease;
@@ -174,18 +168,18 @@
   .ai-spot__source {
     position: absolute; left: 16px; bottom: 16px; margin: 0;
     padding: 6px 10px; background: var(--ai-forest); color: var(--ai-alabaster);
-    font-family: 'Jost', var(--font-body-family), sans-serif; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+    font-family: var(--font-body-family); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
   }
 
   .ai-spot__title {
     margin: 0 0 16px;
-    font-family: 'Cormorant Garamond', var(--font-heading-family), serif;
+    font-family: var(--font-heading-family);
     font-size: clamp(32px, 3.6vw, 46px); font-weight: 500; line-height: 1.08;
     color: var(--ai-forest);
   }
-  .ai-spot__body { font-family: 'Jost', var(--font-body-family), sans-serif; font-size: 16px; line-height: 1.7; }
+  .ai-spot__body { font-family: var(--font-body-family); font-size: 16px; line-height: 1.7; }
   .ai-spot__body p { margin: 0 0 14px; }
-  .ai-spot__points { margin: 8px 0 24px; padding: 0; list-style: none; font-family: 'Jost', var(--font-body-family), sans-serif; }
+  .ai-spot__points { margin: 8px 0 24px; padding: 0; list-style: none; font-family: var(--font-body-family); }
   .ai-spot__points li { position: relative; padding: 10px 0 10px 26px; border-bottom: 1px solid var(--ai-stone); font-size: 15px; }
   .ai-spot__points li::before {
     content: ''; position: absolute; left: 2px; top: 50%;
@@ -201,12 +195,12 @@
   }
   .ai-spot__found:hover { border-color: var(--ai-forest); }
   .ai-spot__found-img { width: 64px; height: 64px; object-fit: cover; flex: 0 0 64px; }
-  .ai-spot__found-text { display: flex; flex-direction: column; gap: 2px; flex: 1; font-family: 'Jost', var(--font-body-family), sans-serif; }
+  .ai-spot__found-text { display: flex; flex-direction: column; gap: 2px; flex: 1; font-family: var(--font-body-family); }
   .ai-spot__found-label { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; opacity: 0.7; }
-  .ai-spot__found-name { font-family: 'Cormorant Garamond', var(--font-heading-family), serif; font-size: 20px; font-weight: 600; color: var(--ai-forest); }
+  .ai-spot__found-name { font-family: var(--font-heading-family); font-size: 20px; font-weight: 600; color: var(--ai-forest); }
   .ai-spot__found-price { font-size: 14px; }
   .ai-spot__found-arrow { font-size: 20px; color: var(--ai-forest); }
-  .ai-spot__disclaimer { margin: 28px 0 0; text-align: center; font-family: 'Jost', var(--font-body-family), sans-serif; font-size: 12px; opacity: 0.7; }
+  .ai-spot__disclaimer { margin: 28px 0 0; text-align: center; font-family: var(--font-body-family); font-size: 12px; opacity: 0.7; }
 
   @media (prefers-reduced-motion: reduce) {
     .ai-spot__tab, .ai-spot__found { transition: none; }
@@ -257,7 +251,8 @@
           if (this.panels[j]) this.panels[j].hidden = !on;
         });
         if (moveFocus) this.tabs[index].focus();
-        this.tabs[index].scrollIntoView({ block: 'nearest', inline: 'center', behavior: 'smooth' });
+        const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        this.tabs[index].scrollIntoView({ block: 'nearest', inline: 'center', behavior: reduce ? 'auto' : 'smooth' });
       }
     });
   }
@@ -281,13 +276,12 @@
       ]
     },
     { "type": "text", "id": "disclaimer", "label": "Disclaimer", "default": "Individual results vary. Patch test before first use." },
-    { "type": "header", "content": "Brand colors and fonts" },
+    { "type": "header", "content": "Brand colors" },
     { "type": "color", "id": "color_forest", "label": "Forest Ink", "default": "#1F3A2E" },
     { "type": "color", "id": "color_alabaster", "label": "Alabaster", "default": "#F4F0E8" },
     { "type": "color", "id": "color_stone", "label": "Warm Stone", "default": "#D9D0C1" },
     { "type": "color", "id": "color_gold", "label": "Antique Gold", "default": "#B8955A" },
-    { "type": "color", "id": "color_text", "label": "Body text", "default": "#1E1E1C" },
-    { "type": "checkbox", "id": "load_fonts", "label": "Load Cormorant Garamond + Jost from Google Fonts", "default": true }
+    { "type": "color", "id": "color_text", "label": "Body text", "default": "#1E1E1C" }
   ],
   "blocks": [
     {
@@ -343,7 +337,7 @@
             "label": "Hyaluronic acid",
             "eyebrow": "Hydration you can see",
             "heading": "Two weights of vegan hyaluronic acid",
-            "source": "Vegan certified",
+            "source": "Vegan",
             "body": "<p>Sodium hyaluronate and hydrolyzed hyaluronic acid draw water into the skin's surface, hydrating for a plumper, smoother look that lasts all day.</p>",
             "point_1": "Hydrates for a plumper look",
             "point_2": "Two molecular weights, one cushiony cream",
