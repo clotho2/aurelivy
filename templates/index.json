@@ -1,1 +1,601 @@
-{"sections":{"ai_holiday_hero_XJwXRq":{"type":"ai-holiday-hero","name":"A&I Holiday Hero","settings":{"overlay_opacity":20,"min_height":85,"text_align":"left","show_panel":true,"eyebrow":"","heading":"A little luxury. A daily ritual.","heading_tag":"h1","subheading":"Coming soon: the Ageless Botanical Holiday Vault, a planned four-step ritual featuring Bakuchiol Night Serum, Peptide Contour Cream, Peptide Eye Cream, and Golden Botanical Face Oil.","product":"","price":"","compare_price":"","promo":"","button_label":"","button_link":"","button2_label":"","button2_link":"","note":"","cutoff":"","countdown_label":"","post_eyebrow":"","post_heading":"","post_text":"","post_button_label":"","post_button_link":"","color_forest":"#1F3A2E","color_alabaster":"#F4F0E8","color_gold":"#B8955A","color_text":"#1E1E1C","load_fonts":false}},"featured_collection":{"type":"featured-collection","settings":{"collection":"all","products_to_show":8,"title":"Featured products","heading_size":"h2","description":"","show_description":false,"description_style":"body","columns_desktop":4,"enable_desktop_slider":false,"full_width":false,"show_view_all":true,"view_all_style":"solid","color_scheme":"scheme-1","image_ratio":"adapt","image_shape":"default","show_secondary_image":true,"show_vendor":false,"show_rating":false,"quick_add":"none","columns_mobile":"2","swipe_on_mobile":false,"padding_top":44,"padding_bottom":36}},"ai_ingredient_spotlight_PiX7jn":{"type":"ai-ingredient-spotlight","blocks":{"ingredient_La66it":{"type":"ingredient","settings":{"label":"","eyebrow":"","heading":"","source":"","body":"","point_1":"","point_2":"","point_3":"","product":""}},"ingredient_nBK4hT":{"type":"ingredient","settings":{"label":"","eyebrow":"","heading":"","source":"","body":"","point_1":"","point_2":"","point_3":"","product":""}},"ingredient_ECwY3m":{"type":"ingredient","settings":{"label":"","eyebrow":"","heading":"","source":"","body":"","point_1":"","point_2":"","point_3":"","product":""}},"ingredient_7AmbU9":{"type":"ingredient","settings":{"label":"","eyebrow":"","heading":"","source":"","body":"","point_1":"","point_2":"","point_3":"","product":""}}},"block_order":["ingredient_La66it","ingredient_nBK4hT","ingredient_ECwY3m","ingredient_7AmbU9"],"name":"A&I Ingredient Spotlight","settings":{"eyebrow":"","heading":"Ingredient spotlight","subheading":"","image_side":"left","disclaimer":"","color_forest":"#1F3A2E","color_alabaster":"#F4F0E8","color_stone":"#D9D0C1","color_gold":"#B8955A","color_text":"#1E1E1C","load_fonts":false}}},"order":["ai_holiday_hero_XJwXRq","featured_collection","ai_ingredient_spotlight_PiX7jn"]}
+{
+  "sections": {
+    "ai_holiday_hero": {
+      "type": "ai-holiday-hero",
+      "settings": {
+        "overlay_opacity": 20,
+        "min_height": 85,
+        "text_align": "left",
+        "show_panel": true,
+        "eyebrow": "The Holiday Vault · Limited edition",
+        "heading": "Ageless, by nature.",
+        "heading_tag": "h1",
+        "subheading": "Four plant-powered essentials — bakuchiol, vegan peptides and golden botanical oils — for skin that looks firmer, smoother and lit from within. 100% vegan.",
+        "product": "",
+        "price": "$195",
+        "compare_price": "$292",
+        "promo": "Black Friday early access: Nov 20",
+        "button_label": "Gift the Vault",
+        "button_link": "",
+        "button2_label": "Build your own box",
+        "button2_link": "/#build-your-box",
+        "note": "Ships from the US in 1–2 business days · Complimentary gift shipping on $100+",
+        "cutoff": "2026-12-12T23:59:00-05:00",
+        "countdown_label": "Order by Dec 12 for Christmas delivery",
+        "cutoff_sr": "Order by Saturday, December 12 at 11:59 pm Eastern for Christmas delivery.",
+        "post_eyebrow": "Delivered instantly",
+        "post_heading": "Too late to ship? Give the ritual.",
+        "post_text": "Our digital gift card arrives in their inbox in minutes, so they can choose their own ritual.",
+        "post_button_label": "Send a digital gift card",
+        "post_button_link": "",
+        "color_forest": "#1F3A2E",
+        "color_alabaster": "#F4F0E8",
+        "color_gold": "#B8955A",
+        "color_text": "#1E1E1C"
+      }
+    },
+    "trust_bar": {
+      "type": "multicolumn",
+      "blocks": {
+        "column_1": {
+          "type": "column",
+          "settings": {
+            "title": "100% vegan",
+            "text": "",
+            "link_label": ""
+          }
+        },
+        "column_2": {
+          "type": "column",
+          "settings": {
+            "title": "COSMOS-certified formulas",
+            "text": "",
+            "link_label": ""
+          }
+        },
+        "column_3": {
+          "type": "column",
+          "settings": {
+            "title": "Made without synthetic retinoids",
+            "text": "",
+            "link_label": ""
+          }
+        },
+        "column_4": {
+          "type": "column",
+          "settings": {
+            "title": "Ships from the US",
+            "text": "",
+            "link_label": ""
+          }
+        },
+        "column_5": {
+          "type": "column",
+          "settings": {
+            "title": "30-Night Ritual Promise",
+            "text": "",
+            "link_label": ""
+          }
+        }
+      },
+      "block_order": [
+        "column_1",
+        "column_2",
+        "column_3",
+        "column_4",
+        "column_5"
+      ],
+      "settings": {
+        "title": "",
+        "heading_size": "h2",
+        "image_width": "full",
+        "image_ratio": "adapt",
+        "button_label": "",
+        "columns_desktop": 5,
+        "column_alignment": "center",
+        "background_style": "none",
+        "color_scheme": "scheme-3",
+        "columns_mobile": "2",
+        "swipe_on_mobile": false,
+        "padding_top": 20,
+        "padding_bottom": 20
+      }
+    },
+    "vault_products": {
+      "type": "featured-collection",
+      "settings": {
+        "collection": "all",
+        "products_to_show": 4,
+        "title": "Inside the Holiday Vault",
+        "heading_size": "h1",
+        "description": "<p>Four full-size essentials for the complete AM/PM ritual.</p>",
+        "show_description": true,
+        "description_style": "body",
+        "columns_desktop": 4,
+        "enable_desktop_slider": false,
+        "full_width": false,
+        "show_view_all": false,
+        "view_all_style": "solid",
+        "color_scheme": "scheme-1",
+        "image_ratio": "portrait",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "standard",
+        "columns_mobile": "2",
+        "swipe_on_mobile": false,
+        "padding_top": 44,
+        "padding_bottom": 36
+      }
+    },
+    "ai_comparison": {
+      "type": "ai-comparison-table",
+      "blocks": {
+        "row_1": {
+          "type": "row",
+          "settings": {
+            "label": "Source",
+            "ours": "Plant-derived bakuchiol (from Psoralea corylifolia seeds) + lab-made vegan peptides",
+            "theirs": "Lab-made vitamin A derivative"
+          }
+        },
+        "row_2": {
+          "type": "row",
+          "settings": {
+            "label": "What you'll see",
+            "ours": "Smoother-looking texture, a softened look of fine lines, a firmer look",
+            "theirs": "Smoother-looking texture, a softened look of fine lines"
+          }
+        },
+        "row_3": {
+          "type": "row",
+          "settings": {
+            "label": "Adjustment phase",
+            "ours": "Typically none: start nightly",
+            "theirs": "Often weeks of dryness or flaking while skin adjusts"
+          }
+        },
+        "row_4": {
+          "type": "row",
+          "settings": {
+            "label": "Daytime use",
+            "ours": "Peptide Cream and Eye Cream work AM and PM",
+            "theirs": "Usually PM only"
+          }
+        },
+        "row_5": {
+          "type": "row",
+          "settings": {
+            "label": "Pairs with vitamin C and peptides",
+            "ours": "Yes, in the same routine",
+            "theirs": "Often alternated to limit irritation"
+          }
+        },
+        "row_6": {
+          "type": "row",
+          "settings": {
+            "label": "Vegan",
+            "ours": "Always",
+            "theirs": "Depends on the formula base"
+          }
+        },
+        "row_7": {
+          "type": "row",
+          "settings": {
+            "label": "Texture",
+            "ours": "Silky oil serum + cushiony cream",
+            "theirs": "Often drying"
+          }
+        }
+      },
+      "block_order": [
+        "row_1",
+        "row_2",
+        "row_3",
+        "row_4",
+        "row_5",
+        "row_6",
+        "row_7"
+      ],
+      "settings": {
+        "eyebrow": "The difference",
+        "heading": "Why bio-active vegan, not synthetic retinol",
+        "subheading": "",
+        "ours_label": "Aurel & Ivy bio-actives",
+        "theirs_label": "Synthetic retinol",
+        "footnote": "Individual results vary. Always wear sunscreen during the day.",
+        "color_forest": "#1F3A2E",
+        "color_alabaster": "#F4F0E8",
+        "color_gold": "#B8955A",
+        "color_text": "#1E1E1C",
+        "color_stone": "#D9D0C1",
+        "color_muted": "#6F6153"
+      }
+    },
+    "ai_ingredient_spotlight": {
+      "type": "ai-ingredient-spotlight",
+      "blocks": {
+        "ingredient_1": {
+          "type": "ingredient",
+          "settings": {
+            "label": "Bakuchiol",
+            "eyebrow": "The plant-based retinol alternative",
+            "heading": "Bakuchiol (1%)",
+            "source": "Source: babchi seeds",
+            "body": "<p>Drawn from the seeds of the babchi plant (Psoralea corylifolia), bakuchiol is the botanical alternative to retinol. In our Night Serum it rests in organic rosehip and evening primrose oils, so skin looks smoother and more even by morning.</p>",
+            "point_1": "Visibly softens the look of fine lines",
+            "point_2": "Gentle enough for every night",
+            "point_3": "100% plant-derived, never synthetic retinoids",
+            "product": ""
+          }
+        },
+        "ingredient_2": {
+          "type": "ingredient",
+          "settings": {
+            "label": "Vegan peptides",
+            "eyebrow": "For a firmer, bouncier look",
+            "heading": "Vegan peptide complex",
+            "source": "Never animal-derived",
+            "body": "<p>Hexapeptide-11 and dipalmitoyl hydroxyproline are lab-crafted, vegan peptides. Paired with hyaluronic acid in our Contour Cream and Eye Cream, they leave skin looking firmer and feeling more supple.</p>",
+            "point_1": "Skin looks firmer and more supple",
+            "point_2": "Visibly smooths the look of crow's feet",
+            "point_3": "Made without animal collagen",
+            "product": ""
+          }
+        },
+        "ingredient_3": {
+          "type": "ingredient",
+          "settings": {
+            "label": "Hyaluronic acid",
+            "eyebrow": "Hydration you can see",
+            "heading": "Two weights of vegan hyaluronic acid",
+            "source": "Vegan",
+            "body": "<p>Sodium hyaluronate and hydrolyzed hyaluronic acid draw water into the skin's surface, hydrating for a plumper, smoother look that lasts all day.</p>",
+            "point_1": "Hydrates for a plumper look",
+            "point_2": "Two molecular weights, one cushiony cream",
+            "point_3": "Never animal-derived",
+            "product": ""
+          }
+        },
+        "ingredient_4": {
+          "type": "ingredient",
+          "settings": {
+            "label": "Sea-buckthorn",
+            "eyebrow": "The golden oil",
+            "heading": "Sea-buckthorn",
+            "source": "In a COSMOS Organic formula",
+            "body": "<p>The source of our Face Oil's sunset-gold color, sea-buckthorn is rich in omega fatty acids and carotenoids. With rosehip and jojoba, it seals in moisture for skin that looks luminous and supple.</p>",
+            "point_1": "A lit-from-within look",
+            "point_2": "Seals in moisture without heaviness",
+            "point_3": "Blends into foundation for a glow",
+            "product": ""
+          }
+        }
+      },
+      "block_order": [
+        "ingredient_1",
+        "ingredient_2",
+        "ingredient_3",
+        "ingredient_4"
+      ],
+      "settings": {
+        "eyebrow": "Inside the ritual",
+        "heading": "Bio-active ingredient spotlight",
+        "subheading": "Plant-powered actives, never animal-derived. Here's what each one does for the way your skin looks and feels.",
+        "image_side": "left",
+        "disclaimer": "Individual results vary. Patch test before first use.",
+        "color_forest": "#1F3A2E",
+        "color_alabaster": "#F4F0E8",
+        "color_gold": "#B8955A",
+        "color_text": "#1E1E1C",
+        "color_stone": "#D9D0C1"
+      }
+    },
+    "evening_ritual": {
+      "type": "multicolumn",
+      "blocks": {
+        "column_1": {
+          "type": "column",
+          "settings": {
+            "title": "1. Serum",
+            "text": "<p>On clean, dry skin, press 3–4 drops of Bakuchiol Night Serum over face and neck.</p>",
+            "link_label": ""
+          }
+        },
+        "column_2": {
+          "type": "column",
+          "settings": {
+            "title": "2. Contour",
+            "text": "<p>Smooth a pearl of Peptide Contour Cream over the serum, sweeping up and out along the jaw and cheekbones.</p>",
+            "link_label": ""
+          }
+        },
+        "column_3": {
+          "type": "column",
+          "settings": {
+            "title": "3. Eyes",
+            "text": "<p>Tap a rice grain of Peptide Eye Cream along the orbital bone with your ring finger.</p>",
+            "link_label": ""
+          }
+        }
+      },
+      "block_order": [
+        "column_1",
+        "column_2",
+        "column_3"
+      ],
+      "settings": {
+        "title": "The 3-step evening ritual",
+        "heading_size": "h1",
+        "image_width": "full",
+        "image_ratio": "adapt",
+        "button_label": "",
+        "columns_desktop": 3,
+        "column_alignment": "left",
+        "background_style": "none",
+        "color_scheme": "scheme-2",
+        "columns_mobile": "1",
+        "swipe_on_mobile": false,
+        "padding_top": 52,
+        "padding_bottom": 52
+      }
+    },
+    "duo_feature": {
+      "type": "image-with-text",
+      "blocks": {
+        "caption": {
+          "type": "caption",
+          "settings": {
+            "caption": "Start here",
+            "text_style": "caption-with-letter-spacing",
+            "text_size": "medium"
+          }
+        },
+        "heading": {
+          "type": "heading",
+          "settings": {
+            "heading": "The Overnight Bakuchiol Duo",
+            "heading_size": "h1"
+          }
+        },
+        "text": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Start with the two that work while you sleep: Bakuchiol Night Serum and Peptide Contour Cream. $138, a $162 value.</p>",
+            "text_style": "body"
+          }
+        },
+        "button": {
+          "type": "button",
+          "settings": {
+            "button_label": "Shop the Duo",
+            "button_link": "",
+            "button_style_secondary": false
+          }
+        }
+      },
+      "block_order": [
+        "caption",
+        "heading",
+        "text",
+        "button"
+      ],
+      "settings": {
+        "height": "medium",
+        "desktop_image_width": "medium",
+        "layout": "image_first",
+        "image_behavior": "none",
+        "content_layout": "no-overlap",
+        "desktop_content_position": "middle",
+        "desktop_content_alignment": "left",
+        "mobile_content_alignment": "left",
+        "section_color_scheme": "scheme-1",
+        "color_scheme": "scheme-1",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "founder_note": {
+      "type": "image-with-text",
+      "blocks": {
+        "caption": {
+          "type": "caption",
+          "settings": {
+            "caption": "A note from our founder",
+            "text_style": "caption-with-letter-spacing",
+            "text_size": "medium"
+          }
+        },
+        "heading": {
+          "type": "heading",
+          "settings": {
+            "heading": "Made without animals, and without compromise",
+            "heading_size": "h2"
+          }
+        },
+        "text": {
+          "type": "text",
+          "settings": {
+            "text": "<p>I've been vegan for years, and I kept hitting the same wall: the skincare that actually showed results leaned on animal-derived ingredients or harsh synthetics, and the vegan options looked like they belonged in a health-food aisle. So I built the line I wanted: plant actives, honest claims, and a shelf presence worth gifting. Every formula is 100% vegan and COSMOS certified.</p><p>— Angela, Founder</p>",
+            "text_style": "body"
+          }
+        }
+      },
+      "block_order": [
+        "caption",
+        "heading",
+        "text"
+      ],
+      "settings": {
+        "height": "adapt",
+        "desktop_image_width": "medium",
+        "layout": "text_first",
+        "image_behavior": "none",
+        "content_layout": "no-overlap",
+        "desktop_content_position": "middle",
+        "desktop_content_alignment": "left",
+        "mobile_content_alignment": "left",
+        "section_color_scheme": "scheme-4",
+        "color_scheme": "scheme-4",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "ai_gift_box_builder": {
+      "type": "ai-gift-box-builder",
+      "settings": {
+        "eyebrow": "Build your own",
+        "heading": "Build your vegan anti-aging gift box",
+        "subheading": "Choose the essentials they'll actually use. The more you add, the more you save.",
+        "collection": "",
+        "box_name": "Aurel & Ivy Gift Box",
+        "max_items": 6,
+        "tier1_qty": 2,
+        "tier1_pct": 15,
+        "tier2_qty": 3,
+        "tier2_pct": 25,
+        "gift_product": "",
+        "gift_label": "Free holiday gift box",
+        "fine_print": "Savings apply automatically at checkout. The free gift box applies while your box has 3 or more items. Complimentary gift shipping on orders $100+.",
+        "color_forest": "#1F3A2E",
+        "color_alabaster": "#F4F0E8",
+        "color_gold": "#B8955A",
+        "color_text": "#1E1E1C",
+        "color_stone": "#D9D0C1",
+        "color_moss": "#2F4F3E"
+      }
+    },
+    "faq": {
+      "type": "collapsible-content",
+      "blocks": {
+        "faq_1": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "When will my order arrive?",
+            "icon": "truck",
+            "row_content": "<p>Orders ship from the US within 1–2 business days and arrive 4–7 business days after you order. You'll get tracking by email as soon as it ships.</p>"
+          }
+        },
+        "faq_2": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "What's the last day to order for Christmas?",
+            "icon": "stopwatch",
+            "row_content": "<p>Saturday, December 12 at 11:59 pm ET for delivery in the contiguous US. After that, our digital gift card arrives instantly.</p>"
+          }
+        },
+        "faq_3": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Can I ship it straight to the person I'm gifting?",
+            "icon": "box",
+            "row_content": "<p>Yes. Enter their address at checkout.</p>"
+          }
+        },
+        "faq_4": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Do you ship to Alaska, Hawaii or outside the US?",
+            "icon": "map_pin",
+            "row_content": "<p>Not during the holiday season, so we can keep every delivery promise. We'll open more destinations in January.</p>"
+          }
+        },
+        "faq_5": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Is everything vegan?",
+            "icon": "leaf",
+            "row_content": "<p>Yes, every ingredient in every product. Our formulas are COSMOS certified.</p>"
+          }
+        },
+        "faq_6": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "What's the 30-Night Ritual Promise?",
+            "icon": "return",
+            "row_content": "<p>Use the ritual for 30 nights. If you don't love how your skin looks, email us within 30 days of delivery and we'll refund your first order. No need to send it back. First orders only, one per household.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "faq_1",
+        "faq_2",
+        "faq_3",
+        "faq_4",
+        "faq_5",
+        "faq_6"
+      ],
+      "settings": {
+        "caption": "Shipping & guarantee",
+        "heading": "Questions, answered",
+        "heading_size": "h1",
+        "heading_alignment": "center",
+        "layout": "none",
+        "container_color_scheme": "scheme-2",
+        "color_scheme": "scheme-1",
+        "open_first_collapsible_row": false,
+        "image_ratio": "adapt",
+        "desktop_layout": "image_second",
+        "padding_top": 36,
+        "padding_bottom": 52
+      }
+    },
+    "vip_anchor": {
+      "type": "custom-liquid",
+      "settings": {
+        "custom_liquid": "<div id=\"vip\" style=\"scroll-margin-top: 80px;\"></div>",
+        "color_scheme": "scheme-5",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "newsletter": {
+      "type": "newsletter",
+      "blocks": {
+        "heading": {
+          "type": "heading",
+          "settings": {
+            "heading": "Get Black Friday early access",
+            "heading_size": "h1"
+          }
+        },
+        "paragraph": {
+          "type": "paragraph",
+          "settings": {
+            "text": "<p>VIP pricing opens to the list on November 20, six days before everyone else. No spam, ever.</p>"
+          }
+        },
+        "email_form": {
+          "type": "email_form",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "heading",
+        "paragraph",
+        "email_form"
+      ],
+      "settings": {
+        "color_scheme": "scheme-5",
+        "full_width": true,
+        "padding_top": 40,
+        "padding_bottom": 52
+      }
+    }
+  },
+  "order": [
+    "ai_holiday_hero",
+    "trust_bar",
+    "vault_products",
+    "ai_comparison",
+    "ai_ingredient_spotlight",
+    "evening_ritual",
+    "duo_feature",
+    "founder_note",
+    "ai_gift_box_builder",
+    "faq",
+    "vip_anchor",
+    "newsletter"
+  ]
+}

@@ -1,0 +1,9 @@
+/* Aurel & Ivy: small global additions to Dawn (cart free-shipping meter). */
+.ai-ship-meter { margin: 0 0 1.6rem; text-align: left; }
+.ai-ship-meter__msg { display: flex; align-items: center; gap: 0.6rem; margin: 0 0 0.8rem; font-size: 1.4rem; line-height: 1.4; }
+.ai-ship-meter__msg strong { font-weight: var(--font-body-weight-bold); color: #1f3a2e; }
+.ai-ship-meter__msg--done { color: #1f3a2e; }
+.ai-ship-meter__msg svg { width: 1.6rem; height: 1.6rem; flex: 0 0 1.6rem; }
+.ai-ship-meter__track { height: 0.5rem; background: #d9d0c1; overflow: hidden; }
+.ai-ship-meter__fill { height: 100%; background: linear-gradient(90deg, #1f3a2e, #b8955a); transition: width 0.3s ease; }
+@media (prefers-reduced-motion: reduce) { .ai-ship-meter__fill { transition: none; } }
