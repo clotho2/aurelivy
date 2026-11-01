@@ -1,0 +1,443 @@
+{%- comment -%}
+  Aurel & Ivy — Holiday Hero Banner with live shipping-cutoff countdown
+  Dawn-compatible section. Save as: sections/ai-holiday-hero.liquid
+  Before the cutoff it shows the offer + countdown; after the cutoff it swaps
+  to the gift-card message automatically (no edit needed on Dec 13).
+{%- endcomment -%}
+
+{%- if section.settings.load_fonts -%}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Jost:wght@400;500&display=swap" rel="stylesheet">
+{%- endif -%}
+
+{%- style -%}
+  #AiHero-{{ section.id }} {
+    --ai-forest: {{ section.settings.color_forest }};
+    --ai-alabaster: {{ section.settings.color_alabaster }};
+    --ai-gold: {{ section.settings.color_gold }};
+    --ai-text: {{ section.settings.color_text }};
+    --ai-overlay: {{ section.settings.overlay_opacity | divided_by: 100.0 }};
+    --ai-min-h: {{ section.settings.min_height }}vh;
+  }
+{%- endstyle -%}
+
+{%- liquid
+  assign hero_product = section.settings.product
+  assign primary_link = section.settings.button_link
+  if primary_link == blank
+    if hero_product != blank
+      assign primary_link = hero_product.url
+    else
+      assign primary_link = routes.all_products_collection_url
+    endif
+  endif
+  assign secondary_link = section.settings.button2_link | default: routes.all_products_collection_url
+  assign post_link = section.settings.post_button_link | default: routes.all_products_collection_url
+  assign heading_tag = section.settings.heading_tag
+  assign panel_class = 'ai-hero__panel'
+  unless section.settings.show_panel
+    assign panel_class = 'ai-hero__panel ai-hero__panel--bare'
+  endunless
+-%}
+
+<section
+  id="AiHero-{{ section.id }}"
+  class="ai-hero{% if section.settings.image_mobile != blank %} ai-hero--has-mobile{% endif %}"
+  aria-label="{{ section.settings.heading | escape }}"
+>
+  <div class="ai-hero__media">
+    {%- if section.settings.image != blank -%}
+      {{
+        section.settings.image
+        | image_url: width: 2400
+        | image_tag:
+          widths: '750, 1100, 1500, 1800, 2400',
+          sizes: '100vw',
+          class: 'ai-hero__img ai-hero__img--desktop',
+          loading: 'eager',
+          fetchpriority: 'high'
+      }}
+    {%- else -%}
+      {{ 'lifestyle-2' | placeholder_svg_tag: 'ai-hero__img ai-hero__placeholder' }}
+    {%- endif -%}
+    {%- if section.settings.image_mobile != blank -%}
+      {{
+        section.settings.image_mobile
+        | image_url: width: 1100
+        | image_tag:
+          widths: '550, 750, 1100',
+          sizes: '100vw',
+          class: 'ai-hero__img ai-hero__img--mobile',
+          loading: 'eager'
+      }}
+    {%- endif -%}
+    <div class="ai-hero__overlay" aria-hidden="true"></div>
+  </div>
+
+  <div class="ai-hero__inner ai-hero__inner--{{ section.settings.text_align }}">
+    <ai-cutoff-hero class="{{ panel_class }}" data-cutoff="{{ section.settings.cutoff | escape }}">
+
+      {%- comment -%} BEFORE THE CUTOFF {%- endcomment -%}
+      <div data-precutoff>
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="ai-hero__eyebrow">{{ section.settings.eyebrow | escape }}</p>
+        {%- endif -%}
+
+        <{{ heading_tag }} class="ai-hero__heading">{{ section.settings.heading | escape }}</{{ heading_tag }}>
+
+        {%- if section.settings.subheading != blank -%}
+          <p class="ai-hero__sub">{{ section.settings.subheading | escape | newline_to_br }}</p>
+        {%- endif -%}
+
+        <div class="ai-hero__price-row">
+          {%- if hero_product != blank -%}
+            <span class="ai-hero__price">{{ hero_product.price | money_without_trailing_zeros }}</span>
+            {%- if hero_product.compare_at_price > hero_product.price -%}
+              <s class="ai-hero__compare">
+                <span class="ai-visually-hidden">Regular value</span>
+                {{ hero_product.compare_at_price | money_without_trailing_zeros }}
+              </s>
+            {%- endif -%}
+          {%- else -%}
+            {%- if section.settings.price != blank -%}
+              <span class="ai-hero__price">{{ section.settings.price | escape }}</span>
+            {%- endif -%}
+            {%- if section.settings.compare_price != blank -%}
+              <s class="ai-hero__compare">
+                <span class="ai-visually-hidden">Regular value</span>
+                {{ section.settings.compare_price | escape }}
+              </s>
+            {%- endif -%}
+          {%- endif -%}
+          {%- if section.settings.promo != blank -%}
+            <span class="ai-hero__promo">{{ section.settings.promo | escape }}</span>
+          {%- endif -%}
+        </div>
+
+        <div class="ai-hero__countdown" data-countdown>
+          <p class="ai-hero__countdown-label">{{ section.settings.countdown_label | escape }}</p>
+          <div class="ai-hero__timer" role="timer" aria-live="off" aria-hidden="true">
+            <span class="ai-hero__unit"><span class="ai-hero__num" data-unit="d">--</span><span class="ai-hero__lbl">Days</span></span>
+            <span class="ai-hero__unit"><span class="ai-hero__num" data-unit="h">--</span><span class="ai-hero__lbl">Hrs</span></span>
+            <span class="ai-hero__unit"><span class="ai-hero__num" data-unit="m">--</span><span class="ai-hero__lbl">Min</span></span>
+            <span class="ai-hero__unit"><span class="ai-hero__num" data-unit="s">--</span><span class="ai-hero__lbl">Sec</span></span>
+          </div>
+        </div>
+
+        <div class="ai-hero__actions">
+          {%- if section.settings.button_label != blank -%}
+            <a class="ai-hero__btn" href="{{ primary_link }}">{{ section.settings.button_label | escape }}</a>
+          {%- endif -%}
+          {%- if section.settings.button2_label != blank -%}
+            <a class="ai-hero__link" href="{{ secondary_link }}">{{ section.settings.button2_label | escape }}</a>
+          {%- endif -%}
+        </div>
+
+        {%- if section.settings.note != blank -%}
+          <p class="ai-hero__note">{{ section.settings.note | escape }}</p>
+        {%- endif -%}
+      </div>
+
+      {%- comment -%} AFTER THE CUTOFF {%- endcomment -%}
+      <div data-postcutoff hidden>
+        {%- if section.settings.post_eyebrow != blank -%}
+          <p class="ai-hero__eyebrow">{{ section.settings.post_eyebrow | escape }}</p>
+        {%- endif -%}
+        <{{ heading_tag }} class="ai-hero__heading">{{ section.settings.post_heading | escape }}</{{ heading_tag }}>
+        {%- if section.settings.post_text != blank -%}
+          <p class="ai-hero__sub">{{ section.settings.post_text | escape | newline_to_br }}</p>
+        {%- endif -%}
+        {%- if section.settings.post_button_label != blank -%}
+          <div class="ai-hero__actions">
+            <a class="ai-hero__btn" href="{{ post_link }}">{{ section.settings.post_button_label | escape }}</a>
+          </div>
+        {%- endif -%}
+      </div>
+    </ai-cutoff-hero>
+  </div>
+</section>
+
+{% stylesheet %}
+  .ai-hero {
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-height: var(--ai-min-h, 85vh);
+    overflow: hidden;
+    background: var(--ai-forest);
+    color: var(--ai-text);
+  }
+  .ai-hero [hidden] { display: none !important; }
+  .ai-visually-hidden {
+    position: absolute !important; width: 1px; height: 1px; overflow: hidden;
+    clip: rect(0 0 0 0); white-space: nowrap; margin: -1px; padding: 0; border: 0;
+  }
+  .ai-hero__media { position: absolute; inset: 0; }
+  .ai-hero__img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .ai-hero__placeholder { fill: rgba(244, 240, 232, 0.25); background: var(--ai-forest); }
+  .ai-hero__img--mobile { display: none; }
+  @media (max-width: 749px) {
+    .ai-hero--has-mobile .ai-hero__img--desktop { display: none; }
+    .ai-hero--has-mobile .ai-hero__img--mobile { display: block; }
+  }
+  .ai-hero__overlay { position: absolute; inset: 0; background: var(--ai-forest); opacity: var(--ai-overlay); }
+
+  .ai-hero__inner {
+    position: relative;
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: clamp(24px, 6vw, 80px) 16px;
+    display: flex;
+    justify-content: flex-start;
+  }
+  .ai-hero__inner--center { justify-content: center; text-align: center; }
+  .ai-hero__inner--right { justify-content: flex-end; }
+
+  .ai-hero__panel {
+    display: block;
+    max-width: 580px;
+    width: 100%;
+    padding: clamp(24px, 4vw, 52px);
+    background: var(--ai-alabaster);
+    background: color-mix(in srgb, var(--ai-alabaster) 94%, transparent);
+    border: 1px solid var(--ai-gold);
+    outline: 1px solid color-mix(in srgb, var(--ai-gold) 45%, transparent);
+    outline-offset: 6px;
+  }
+  .ai-hero__panel--bare { background: none; border: 0; outline: 0; padding-left: 0; padding-right: 0; }
+  .ai-hero__panel--bare .ai-hero__heading,
+  .ai-hero__panel--bare .ai-hero__sub,
+  .ai-hero__panel--bare .ai-hero__eyebrow,
+  .ai-hero__panel--bare .ai-hero__price-row,
+  .ai-hero__panel--bare .ai-hero__note,
+  .ai-hero__panel--bare .ai-hero__countdown-label,
+  .ai-hero__panel--bare .ai-hero__link { color: var(--ai-alabaster); }
+
+  .ai-hero__eyebrow {
+    display: inline-flex; align-items: center; gap: 12px;
+    margin: 0 0 18px;
+    font-family: 'Jost', var(--font-body-family), sans-serif;
+    font-size: 12px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--ai-forest);
+  }
+  .ai-hero__eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--ai-gold); }
+
+  .ai-hero__heading {
+    margin: 0 0 16px;
+    font-family: 'Cormorant Garamond', var(--font-heading-family), serif;
+    font-weight: 500;
+    font-size: clamp(42px, 6.2vw, 76px);
+    line-height: 1.02;
+    letter-spacing: -0.01em;
+    color: var(--ai-forest);
+  }
+  .ai-hero__sub {
+    margin: 0 0 22px;
+    font-family: 'Jost', var(--font-body-family), sans-serif;
+    font-size: 17px; line-height: 1.6;
+    color: var(--ai-text);
+  }
+  .ai-hero__price-row {
+    display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px 14px;
+    margin: 0 0 22px;
+    font-family: 'Jost', var(--font-body-family), sans-serif;
+    color: var(--ai-text);
+  }
+  .ai-hero__inner--center .ai-hero__price-row,
+  .ai-hero__inner--center .ai-hero__actions,
+  .ai-hero__inner--center .ai-hero__timer { justify-content: center; }
+  .ai-hero__price { font-family: 'Cormorant Garamond', var(--font-heading-family), serif; font-size: 34px; font-weight: 600; color: var(--ai-forest); }
+  .ai-hero__panel--bare .ai-hero__price { color: var(--ai-alabaster); }
+  .ai-hero__compare { font-size: 17px; opacity: 0.7; }
+  .ai-hero__promo {
+    padding: 5px 10px;
+    font-size: 12px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
+    background: var(--ai-forest); color: var(--ai-alabaster);
+  }
+
+  .ai-hero__countdown { margin: 0 0 26px; }
+  .ai-hero__countdown-label {
+    margin: 0 0 10px;
+    font-family: 'Jost', var(--font-body-family), sans-serif;
+    font-size: 13px; font-weight: 500; letter-spacing: 0.06em;
+    color: var(--ai-forest);
+  }
+  .ai-hero__timer { display: flex; gap: 8px; }
+  .ai-hero__unit {
+    display: flex; flex-direction: column; align-items: center;
+    min-width: 64px; padding: 10px 8px 8px;
+    background: var(--ai-forest);
+    border: 1px solid var(--ai-gold);
+  }
+  .ai-hero__num {
+    font-family: 'Cormorant Garamond', var(--font-heading-family), serif;
+    font-size: 32px; font-weight: 600; line-height: 1;
+    color: var(--ai-gold);
+    font-variant-numeric: tabular-nums;
+  }
+  .ai-hero__lbl {
+    margin-top: 6px;
+    font-family: 'Jost', var(--font-body-family), sans-serif;
+    font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--ai-alabaster);
+  }
+
+  .ai-hero__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 24px; margin: 0 0 16px; }
+  .ai-hero__btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-height: 52px; padding: 0 34px;
+    font-family: 'Jost', var(--font-body-family), sans-serif;
+    font-size: 14px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; text-decoration: none;
+    background: var(--ai-forest); color: var(--ai-alabaster);
+    border: 1px solid var(--ai-forest);
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+  .ai-hero__btn:hover { background: transparent; color: var(--ai-forest); }
+  .ai-hero__panel--bare .ai-hero__btn { background: var(--ai-alabaster); color: var(--ai-forest); border-color: var(--ai-alabaster); }
+  .ai-hero__btn:focus-visible, .ai-hero__link:focus-visible { outline: 2px solid var(--ai-gold); outline-offset: 3px; }
+  .ai-hero__link {
+    font-family: 'Jost', var(--font-body-family), sans-serif;
+    font-size: 14px; letter-spacing: 0.08em; color: var(--ai-forest);
+    text-decoration: underline; text-underline-offset: 5px; text-decoration-color: var(--ai-gold);
+  }
+  .ai-hero__note {
+    margin: 0;
+    font-family: 'Jost', var(--font-body-family), sans-serif;
+    font-size: 13px; color: var(--ai-text); opacity: 0.85;
+  }
+
+  @media (max-width: 749px) {
+    .ai-hero { align-items: flex-end; }
+    .ai-hero__panel { outline-offset: 4px; }
+    .ai-hero__unit { min-width: 0; flex: 1; }
+    .ai-hero__num { font-size: 26px; }
+    .ai-hero__btn { width: 100%; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ai-hero__btn { transition: none; }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  if (!customElements.get('ai-cutoff-hero')) {
+    customElements.define('ai-cutoff-hero', class extends HTMLElement {
+      connectedCallback() {
+        this.cutoff = Date.parse(this.dataset.cutoff);
+        this.units = {
+          d: this.querySelector('[data-unit="d"]'),
+          h: this.querySelector('[data-unit="h"]'),
+          m: this.querySelector('[data-unit="m"]'),
+          s: this.querySelector('[data-unit="s"]')
+        };
+        if (Number.isNaN(this.cutoff)) {
+          const countdown = this.querySelector('[data-countdown]');
+          if (countdown) countdown.hidden = true;
+          return;
+        }
+        this.tick();
+        this.timer = setInterval(() => this.tick(), 1000);
+      }
+
+      disconnectedCallback() {
+        clearInterval(this.timer);
+      }
+
+      tick() {
+        const diff = this.cutoff - Date.now();
+        if (diff <= 0) {
+          clearInterval(this.timer);
+          this.setPost(true);
+          return;
+        }
+        this.setPost(false);
+        const total = Math.floor(diff / 1000);
+        const pad = (n) => String(n).padStart(2, '0');
+        const values = {
+          d: Math.floor(total / 86400),
+          h: Math.floor((total % 86400) / 3600),
+          m: Math.floor((total % 3600) / 60),
+          s: total % 60
+        };
+        Object.keys(values).forEach((k) => {
+          if (this.units[k]) this.units[k].textContent = pad(values[k]);
+        });
+      }
+
+      setPost(isPost) {
+        if (this.isPost === isPost) return;
+        this.isPost = isPost;
+        this.querySelectorAll('[data-precutoff]').forEach((el) => { el.hidden = isPost; });
+        this.querySelectorAll('[data-postcutoff]').forEach((el) => { el.hidden = !isPost; });
+      }
+    });
+  }
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "A&I Holiday Hero",
+  "tag": "div",
+  "class": "ai-hero-section",
+  "settings": [
+    { "type": "header", "content": "Image" },
+    { "type": "image_picker", "id": "image", "label": "Background image", "info": "2400 x 1400 px or larger. Keep the left side calm for the text panel." },
+    { "type": "image_picker", "id": "image_mobile", "label": "Mobile image (optional)", "info": "1100 x 1400 px portrait." },
+    { "type": "range", "id": "overlay_opacity", "label": "Green overlay", "min": 0, "max": 80, "step": 5, "unit": "%", "default": 20 },
+    { "type": "range", "id": "min_height", "label": "Minimum height", "min": 50, "max": 100, "step": 5, "unit": "vh", "default": 85 },
+    {
+      "type": "select", "id": "text_align", "label": "Panel position", "default": "left",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ]
+    },
+    { "type": "checkbox", "id": "show_panel", "label": "Show alabaster panel behind text", "default": true },
+
+    { "type": "header", "content": "Offer (before cutoff)" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The Holiday Vault · Limited edition" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Ageless, by nature." },
+    {
+      "type": "select", "id": "heading_tag", "label": "Heading tag", "default": "h1",
+      "info": "Use H1 when this is the first section on the homepage.",
+      "options": [
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" }
+      ]
+    },
+    { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "Four plant-powered essentials — bakuchiol, vegan peptides and golden botanical oils — for skin that looks firmer, smoother and lit from within. 100% vegan." },
+    { "type": "product", "id": "product", "label": "Pull price from product (optional)", "info": "Pick the Vault to show its live price and compare-at price. Leave blank to use the text fields below." },
+    { "type": "text", "id": "price", "label": "Price text", "default": "$195" },
+    { "type": "text", "id": "compare_price", "label": "Compare-at text", "default": "$292" },
+    { "type": "text", "id": "promo", "label": "Promo badge", "default": "Black Friday: $175" },
+    { "type": "text", "id": "button_label", "label": "Primary button label", "default": "Gift the Vault" },
+    { "type": "url", "id": "button_link", "label": "Primary button link", "info": "Blank = the product above, or all products." },
+    { "type": "text", "id": "button2_label", "label": "Secondary link label", "default": "Build your own box" },
+    { "type": "url", "id": "button2_link", "label": "Secondary link" },
+    { "type": "text", "id": "note", "label": "Note under buttons", "default": "Ships in 1–2 business days · Complimentary gift shipping on $100+" },
+
+    { "type": "header", "content": "Countdown" },
+    { "type": "text", "id": "cutoff", "label": "Cutoff (ISO date-time with offset)", "default": "2026-12-12T23:59:00-05:00", "info": "Format: YYYY-MM-DDTHH:MM:SS-05:00 (Eastern). The hero switches to the 'after cutoff' content at this moment." },
+    { "type": "text", "id": "countdown_label", "label": "Countdown label", "default": "Order by Dec 12 for Christmas delivery" },
+
+    { "type": "header", "content": "After cutoff" },
+    { "type": "text", "id": "post_eyebrow", "label": "Eyebrow", "default": "Delivered instantly" },
+    { "type": "text", "id": "post_heading", "label": "Heading", "default": "Too late to ship? Give the ritual." },
+    { "type": "textarea", "id": "post_text", "label": "Text", "default": "Our digital gift card arrives in their inbox in minutes, so they can choose their own ritual." },
+    { "type": "text", "id": "post_button_label", "label": "Button label", "default": "Send a digital gift card" },
+    { "type": "url", "id": "post_button_link", "label": "Button link", "info": "Link to your gift card product." },
+
+    { "type": "header", "content": "Brand colors and fonts" },
+    { "type": "color", "id": "color_forest", "label": "Forest Ink", "default": "#1F3A2E" },
+    { "type": "color", "id": "color_alabaster", "label": "Alabaster", "default": "#F4F0E8" },
+    { "type": "color", "id": "color_gold", "label": "Antique Gold", "default": "#B8955A" },
+    { "type": "color", "id": "color_text", "label": "Body text", "default": "#1E1E1C" },
+    { "type": "checkbox", "id": "load_fonts", "label": "Load Cormorant Garamond + Jost from Google Fonts", "default": true }
+  ],
+  "presets": [
+    { "name": "A&I Holiday Hero" }
+  ]
+}
+{% endschema %}

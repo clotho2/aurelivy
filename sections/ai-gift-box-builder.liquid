@@ -1,0 +1,439 @@
+{%- comment -%}
+  Aurel & Ivy — Build Your Vegan Anti-Aging Gift Box
+  Dawn-compatible section. Save as: sections/ai-gift-box-builder.liquid
+
+  How the savings work: this section shows the tier math and adds the real
+  Selfnamed SKUs to the cart. The actual discounts come from Shopify
+  automatic discounts (see the setup notes in the launch doc):
+    - 15% off, minimum 2 items from the "Gift Box Builder" collection
+    - 25% off, minimum 3 items from the same collection
+    - Buy X get Y: buy 3 from the collection, get the gift product free
+  Keep the gift product OUT of the builder collection.
+{%- endcomment -%}
+
+{%- if section.settings.load_fonts -%}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Jost:wght@400;500&display=swap" rel="stylesheet">
+{%- endif -%}
+
+{%- style -%}
+  #AiBuilder-{{ section.id }} {
+    --ai-forest: {{ section.settings.color_forest }};
+    --ai-alabaster: {{ section.settings.color_alabaster }};
+    --ai-stone: {{ section.settings.color_stone }};
+    --ai-gold: {{ section.settings.color_gold }};
+    --ai-text: {{ section.settings.color_text }};
+  }
+{%- endstyle -%}
+
+{%- liquid
+  assign builder_collection = section.settings.collection
+  assign gift_variant = section.settings.gift_product.selected_or_first_available_variant
+-%}
+
+<section id="AiBuilder-{{ section.id }}" class="ai-builder" aria-labelledby="AiBuilderHeading-{{ section.id }}">
+  <div class="ai-builder__wrap">
+    <header class="ai-builder__header">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="ai-builder__eyebrow">{{ section.settings.eyebrow | escape }}</p>
+      {%- endif -%}
+      <h2 id="AiBuilderHeading-{{ section.id }}" class="ai-builder__heading">{{ section.settings.heading | escape }}</h2>
+      {%- if section.settings.subheading != blank -%}
+        <p class="ai-builder__sub">{{ section.settings.subheading | escape }}</p>
+      {%- endif -%}
+      <ol class="ai-builder__tiers" aria-label="Savings tiers">
+        <li><strong>{{ section.settings.tier1_qty }} items</strong> save {{ section.settings.tier1_pct }}%</li>
+        <li>
+          <strong>{{ section.settings.tier2_qty }} items</strong> save {{ section.settings.tier2_pct }}%
+          {%- if gift_variant != blank %} + {{ section.settings.gift_label | escape | downcase }}{% endif %}
+        </li>
+      </ol>
+    </header>
+
+    {%- if builder_collection == blank or builder_collection.products_count == 0 -%}
+      <p class="ai-builder__empty">Choose the "Gift Box Builder" collection in this section's settings.</p>
+    {%- else -%}
+      <ai-gift-builder
+        class="ai-builder__body"
+        data-currency="{{ cart.currency.iso_code }}"
+        data-tier1-qty="{{ section.settings.tier1_qty }}"
+        data-tier1-pct="{{ section.settings.tier1_pct }}"
+        data-tier2-qty="{{ section.settings.tier2_qty }}"
+        data-tier2-pct="{{ section.settings.tier2_pct }}"
+        data-max="{{ section.settings.max_items }}"
+        data-gift-variant="{{ gift_variant.id }}"
+        data-gift-available="{{ gift_variant.available }}"
+        data-gift-label="{{ section.settings.gift_label | escape }}"
+        data-box-name="{{ section.settings.box_name | escape }}"
+        data-cart-url="{{ routes.cart_url }}"
+        data-cart-add-url="{{ routes.cart_add_url }}"
+      >
+        <div class="ai-builder__grid" role="list">
+          {%- for product in builder_collection.products limit: 12 -%}
+            {%- assign v = product.selected_or_first_available_variant -%}
+            <div
+              class="ai-card"
+              role="listitem"
+              data-variant-id="{{ v.id }}"
+              data-price="{{ v.price }}"
+            >
+              <a class="ai-card__media" href="{{ product.url }}" tabindex="-1" aria-hidden="true">
+                {%- if product.featured_image != blank -%}
+                  {{
+                    product.featured_image
+                    | image_url: width: 600
+                    | image_tag:
+                      widths: '300, 450, 600',
+                      sizes: '(min-width: 990px) 22vw, (min-width: 750px) 33vw, 50vw',
+                      loading: 'lazy',
+                      class: 'ai-card__img'
+                  }}
+                {%- else -%}
+                  {{ 'product-1' | placeholder_svg_tag: 'ai-card__img ai-card__placeholder' }}
+                {%- endif -%}
+              </a>
+              <div class="ai-card__info">
+                <h3 class="ai-card__title"><a href="{{ product.url }}">{{ product.title | escape }}</a></h3>
+                {%- assign benefit = product.metafields.custom.benefit.value -%}
+                {%- if benefit != blank -%}
+                  <p class="ai-card__benefit">{{ benefit | escape }}</p>
+                {%- elsif product.description != blank -%}
+                  <p class="ai-card__benefit">{{ product.description | strip_html | truncatewords: 12 }}</p>
+                {%- endif -%}
+                <p class="ai-card__price">{{ v.price | money }}</p>
+              </div>
+              {%- if v.available -%}
+                <div class="ai-card__stepper" role="group" aria-label="Quantity of {{ product.title | escape }}">
+                  <button type="button" class="ai-card__step" data-minus aria-label="Remove one {{ product.title | escape }}" disabled>&minus;</button>
+                  <span class="ai-card__qty" data-qty aria-live="polite">0</span>
+                  <button type="button" class="ai-card__step" data-plus aria-label="Add one {{ product.title | escape }}">+</button>
+                </div>
+              {%- else -%}
+                <p class="ai-card__soldout">Sold out</p>
+              {%- endif -%}
+            </div>
+          {%- endfor -%}
+        </div>
+
+        <aside class="ai-summary" aria-label="Your gift box">
+          <p class="ai-summary__title">Your gift box</p>
+
+          <div class="ai-meter" aria-hidden="true">
+            <div class="ai-meter__track"><div class="ai-meter__fill" data-meter></div></div>
+            <div class="ai-meter__marks">
+              <span>{{ section.settings.tier1_qty }} · {{ section.settings.tier1_pct }}% off</span>
+              <span>{{ section.settings.tier2_qty }} · {{ section.settings.tier2_pct }}% off{% if gift_variant != blank %} + gift box{% endif %}</span>
+            </div>
+          </div>
+
+          <p class="ai-summary__msg" data-message aria-live="polite"></p>
+
+          <dl class="ai-summary__lines">
+            <div><dt>Items</dt><dd data-count>0</dd></div>
+            <div><dt>Subtotal</dt><dd data-subtotal>—</dd></div>
+            <div class="ai-summary__save"><dt>Box savings</dt><dd data-savings>—</dd></div>
+            <div class="ai-summary__gift" data-gift-row hidden><dt>{{ section.settings.gift_label | escape }}</dt><dd>Free</dd></div>
+            <div class="ai-summary__total"><dt>Estimated total</dt><dd data-total>—</dd></div>
+          </dl>
+
+          <button type="button" class="ai-summary__btn" data-add disabled>Choose your first item</button>
+          <p class="ai-summary__error" data-error role="alert" hidden></p>
+          <p class="ai-summary__fine">{{ section.settings.fine_print | escape }}</p>
+        </aside>
+      </ai-gift-builder>
+    {%- endif -%}
+  </div>
+</section>
+
+{% stylesheet %}
+  .ai-builder { background: var(--ai-alabaster); color: var(--ai-text); padding: clamp(48px, 7vw, 96px) 0; }
+  .ai-builder [hidden] { display: none !important; }
+  .ai-builder__wrap { max-width: 1280px; margin: 0 auto; padding: 0 16px; }
+  .ai-builder__header { max-width: 680px; margin: 0 auto clamp(28px, 4vw, 48px); text-align: center; }
+  .ai-builder__eyebrow {
+    margin: 0 0 12px;
+    font-family: 'Jost', var(--font-body-family), sans-serif;
+    font-size: 12px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--ai-forest);
+  }
+  .ai-builder__heading {
+    margin: 0 0 14px;
+    font-family: 'Cormorant Garamond', var(--font-heading-family), serif;
+    font-weight: 500; font-size: clamp(34px, 4.6vw, 56px); line-height: 1.05;
+    color: var(--ai-forest);
+  }
+  .ai-builder__sub { margin: 0 0 20px; font-family: 'Jost', var(--font-body-family), sans-serif; font-size: 17px; line-height: 1.6; }
+  .ai-builder__tiers {
+    display: inline-flex; flex-wrap: wrap; justify-content: center; gap: 10px;
+    margin: 0; padding: 0; list-style: none;
+    font-family: 'Jost', var(--font-body-family), sans-serif; font-size: 14px;
+  }
+  .ai-builder__tiers li { padding: 8px 14px; border: 1px solid var(--ai-gold); background: #fff; }
+  .ai-builder__tiers strong { color: var(--ai-forest); font-weight: 500; }
+  .ai-builder__empty { text-align: center; font-family: 'Jost', var(--font-body-family), sans-serif; }
+
+  .ai-builder__body { display: grid; grid-template-columns: 1fr; gap: 28px; align-items: start; }
+  @media (min-width: 990px) { .ai-builder__body { grid-template-columns: minmax(0, 1fr) 360px; } }
+
+  .ai-builder__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+  @media (min-width: 750px) { .ai-builder__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; } }
+
+  .ai-card {
+    display: flex; flex-direction: column;
+    background: #fff; border: 1px solid var(--ai-stone);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  .ai-card.is-selected { border-color: var(--ai-forest); box-shadow: inset 0 0 0 1px var(--ai-forest); }
+  .ai-card__media { display: block; aspect-ratio: 4 / 5; background: var(--ai-stone); overflow: hidden; }
+  .ai-card__img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .ai-card__info { padding: 14px 14px 8px; flex: 1; font-family: 'Jost', var(--font-body-family), sans-serif; }
+  .ai-card__title { margin: 0 0 6px; font-family: 'Cormorant Garamond', var(--font-heading-family), serif; font-size: 21px; font-weight: 600; line-height: 1.15; }
+  .ai-card__title a { color: var(--ai-forest); text-decoration: none; }
+  .ai-card__benefit { margin: 0 0 8px; font-size: 13px; line-height: 1.45; color: var(--ai-text); opacity: 0.85; }
+  .ai-card__price { margin: 0; font-size: 14px; font-weight: 500; }
+  .ai-card__stepper { display: flex; align-items: center; justify-content: space-between; margin: 6px 14px 14px; border: 1px solid var(--ai-forest); }
+  .ai-card__step {
+    width: 44px; height: 44px; border: 0; background: transparent; cursor: pointer;
+    font-size: 20px; color: var(--ai-forest);
+  }
+  .ai-card__step:hover:not(:disabled) { background: var(--ai-alabaster); }
+  .ai-card__step:disabled { opacity: 0.3; cursor: default; }
+  .ai-card__step:focus-visible, .ai-summary__btn:focus-visible { outline: 2px solid var(--ai-gold); outline-offset: 2px; }
+  .ai-card__qty { font-family: 'Jost', var(--font-body-family), sans-serif; font-size: 16px; font-weight: 500; min-width: 2ch; text-align: center; }
+  .ai-card__soldout { margin: 6px 14px 14px; font-family: 'Jost', var(--font-body-family), sans-serif; font-size: 13px; opacity: 0.7; }
+
+  .ai-summary {
+    position: sticky; top: 24px;
+    padding: 24px;
+    background: #fff; border: 1px solid var(--ai-gold);
+    font-family: 'Jost', var(--font-body-family), sans-serif;
+  }
+  .ai-summary__title { margin: 0 0 16px; font-family: 'Cormorant Garamond', var(--font-heading-family), serif; font-size: 26px; font-weight: 600; color: var(--ai-forest); }
+  .ai-meter__track { height: 6px; background: var(--ai-stone); overflow: hidden; }
+  .ai-meter__fill { height: 100%; width: 0; background: linear-gradient(90deg, var(--ai-forest), var(--ai-gold)); transition: width 0.3s ease; }
+  .ai-meter__marks { display: flex; justify-content: space-between; margin-top: 6px; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; opacity: 0.8; }
+  .ai-summary__msg { min-height: 2.8em; margin: 14px 0; font-size: 14px; line-height: 1.45; color: var(--ai-forest); }
+  .ai-summary__lines { margin: 0 0 18px; }
+  .ai-summary__lines div { display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 1px solid var(--ai-stone); font-size: 14px; }
+  .ai-summary__lines dt, .ai-summary__lines dd { margin: 0; }
+  .ai-summary__save dd, .ai-summary__gift dd { color: var(--ai-forest); font-weight: 500; }
+  .ai-summary__total { border-bottom: 0 !important; font-size: 16px !important; font-weight: 500; }
+  .ai-summary__btn {
+    width: 100%; min-height: 54px; border: 1px solid var(--ai-forest); cursor: pointer;
+    background: var(--ai-forest); color: var(--ai-alabaster);
+    font-family: 'Jost', var(--font-body-family), sans-serif;
+    font-size: 14px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase;
+  }
+  .ai-summary__btn:disabled { opacity: 0.45; cursor: default; }
+  .ai-summary__btn[aria-busy="true"] { opacity: 0.7; }
+  .ai-summary__error { margin: 10px 0 0; font-size: 13px; color: #8A2B2B; }
+  .ai-summary__fine { margin: 12px 0 0; font-size: 12px; opacity: 0.75; }
+
+  @media (max-width: 989px) {
+    .ai-summary { position: static; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ai-meter__fill, .ai-card { transition: none; }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  if (!customElements.get('ai-gift-builder')) {
+    customElements.define('ai-gift-builder', class extends HTMLElement {
+      connectedCallback() {
+        if (this._ready) return;
+        this._ready = true;
+        const d = this.dataset;
+        this.cfg = {
+          t1q: parseInt(d.tier1Qty, 10) || 2,
+          t1p: parseFloat(d.tier1Pct) || 0,
+          t2q: parseInt(d.tier2Qty, 10) || 3,
+          t2p: parseFloat(d.tier2Pct) || 0,
+          max: parseInt(d.max, 10) || 6,
+          perItemMax: 3,
+          gift: d.giftVariant,
+          giftOk: d.giftAvailable === 'true' && !!d.giftVariant,
+          giftLabel: d.giftLabel || 'Free holiday gift box'
+        };
+        try {
+          this.fmt = new Intl.NumberFormat(document.documentElement.lang || undefined, { style: 'currency', currency: d.currency || 'USD' });
+        } catch (e) {
+          this.fmt = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' });
+        }
+        this.cards = Array.from(this.querySelectorAll('[data-variant-id]'));
+        this.qty = new Map();
+        this.cards.forEach((card) => {
+          this.qty.set(card.dataset.variantId, 0);
+          const plus = card.querySelector('[data-plus]');
+          const minus = card.querySelector('[data-minus]');
+          if (plus) plus.addEventListener('click', () => this.change(card, 1));
+          if (minus) minus.addEventListener('click', () => this.change(card, -1));
+        });
+        this.el = {
+          meter: this.querySelector('[data-meter]'),
+          message: this.querySelector('[data-message]'),
+          count: this.querySelector('[data-count]'),
+          subtotal: this.querySelector('[data-subtotal]'),
+          savings: this.querySelector('[data-savings]'),
+          total: this.querySelector('[data-total]'),
+          giftRow: this.querySelector('[data-gift-row]'),
+          button: this.querySelector('[data-add]'),
+          error: this.querySelector('[data-error]')
+        };
+        this.el.button.addEventListener('click', () => this.addToCart());
+        this.render();
+      }
+
+      count() {
+        let n = 0;
+        this.qty.forEach((q) => { n += q; });
+        return n;
+      }
+
+      tier(n) {
+        if (n >= this.cfg.t2q) return 2;
+        if (n >= this.cfg.t1q) return 1;
+        return 0;
+      }
+
+      money(cents) {
+        return this.fmt.format(cents / 100);
+      }
+
+      change(card, delta) {
+        this.showError('');
+        const id = card.dataset.variantId;
+        const current = this.qty.get(id) || 0;
+        if (delta > 0 && this.count() >= this.cfg.max) {
+          this.showError('Your box holds up to ' + this.cfg.max + ' items.');
+          return;
+        }
+        if (delta > 0 && current >= this.cfg.perItemMax) {
+          this.showError('Up to ' + this.cfg.perItemMax + ' of each item per box.');
+          return;
+        }
+        this.qty.set(id, Math.max(0, current + delta));
+        this.render();
+      }
+
+      message(n, tier) {
+        const c = this.cfg;
+        const giftText = c.giftOk ? ' + a ' + c.giftLabel.toLowerCase() : '';
+        if (n === 0) return 'Choose ' + c.t1q + ' to save ' + c.t1p + '%, or ' + c.t2q + ' to save ' + c.t2p + '%' + giftText + '.';
+        if (tier === 0) {
+          const need = c.t1q - n;
+          return 'Add ' + need + ' more to save ' + c.t1p + '%.';
+        }
+        if (tier === 1) {
+          const need = c.t2q - n;
+          return c.t1p + '% saved. Add ' + need + ' more to save ' + c.t2p + '%' + giftText + '.';
+        }
+        return c.t2p + '% saved' + (c.giftOk ? ' and your ' + c.giftLabel.toLowerCase() + ' is included.' : '.');
+      }
+
+      render() {
+        const n = this.count();
+        let subtotal = 0;
+        this.cards.forEach((card) => {
+          const q = this.qty.get(card.dataset.variantId) || 0;
+          subtotal += q * (parseInt(card.dataset.price, 10) || 0);
+          const qtyEl = card.querySelector('[data-qty]');
+          if (qtyEl) qtyEl.textContent = q;
+          const minus = card.querySelector('[data-minus]');
+          if (minus) minus.disabled = q === 0;
+          card.classList.toggle('is-selected', q > 0);
+        });
+        const tier = this.tier(n);
+        const pct = tier === 2 ? this.cfg.t2p : tier === 1 ? this.cfg.t1p : 0;
+        const savings = Math.round(subtotal * pct / 100);
+        const total = subtotal - savings;
+
+        this.el.count.textContent = n;
+        this.el.subtotal.textContent = n ? this.money(subtotal) : '—';
+        this.el.savings.textContent = savings ? '−' + this.money(savings) : '—';
+        this.el.total.textContent = n ? this.money(total) : '—';
+        this.el.meter.style.width = Math.min(100, (n / this.cfg.t2q) * 100) + '%';
+        this.el.message.textContent = this.message(n, tier);
+        this.el.giftRow.hidden = !(tier === 2 && this.cfg.giftOk);
+        this.el.button.disabled = n === 0;
+        this.el.button.textContent = n === 0
+          ? 'Choose your first item'
+          : 'Add ' + n + (n === 1 ? ' item' : ' items') + ' to bag · ' + this.money(total);
+      }
+
+      showError(text) {
+        this.el.error.textContent = text;
+        this.el.error.hidden = !text;
+      }
+
+      async addToCart() {
+        const boxName = this.dataset.boxName || 'Gift Box';
+        const items = [];
+        this.qty.forEach((q, id) => {
+          if (q > 0) items.push({ id: Number(id), quantity: q, properties: { _gift_box: boxName } });
+        });
+        if (!items.length) return;
+        if (this.tier(this.count()) === 2 && this.cfg.giftOk) {
+          items.push({ id: Number(this.cfg.gift), quantity: 1, properties: { _gift_box: boxName, _free_gift: 'Yes' } });
+        }
+
+        this.showError('');
+        this.el.button.disabled = true;
+        this.el.button.setAttribute('aria-busy', 'true');
+        try {
+          const res = await fetch(this.dataset.cartAddUrl + '.js', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+            body: JSON.stringify({ items: items })
+          });
+          const data = await res.json();
+          if (!res.ok) throw new Error(data.description || data.message || 'We could not add your box. Please try again.');
+          window.location.href = this.dataset.cartUrl;
+        } catch (err) {
+          this.showError(err.message);
+          this.el.button.disabled = false;
+          this.el.button.removeAttribute('aria-busy');
+        }
+      }
+    });
+  }
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "A&I Gift Box Builder",
+  "tag": "div",
+  "class": "ai-builder-section",
+  "settings": [
+    { "type": "header", "content": "Content" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Build your own" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Build your vegan anti-aging gift box" },
+    { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "Choose the essentials she'll actually use. The more you add, the more you save." },
+    { "type": "collection", "id": "collection", "label": "Builder collection", "info": "Create a manual collection called 'Gift Box Builder' with your 4 single products. Do not add bundles or the gift product." },
+    { "type": "text", "id": "box_name", "label": "Box name (saved on the order)", "default": "Aurel & Ivy Gift Box" },
+    { "type": "range", "id": "max_items", "label": "Maximum items per box", "min": 3, "max": 12, "step": 1, "default": 6 },
+
+    { "type": "header", "content": "Savings tiers" },
+    { "type": "paragraph", "content": "These numbers are for display. Create matching automatic discounts in Shopify Admin so checkout applies them." },
+    { "type": "range", "id": "tier1_qty", "label": "Tier 1: items", "min": 1, "max": 6, "step": 1, "default": 2 },
+    { "type": "range", "id": "tier1_pct", "label": "Tier 1: % off", "min": 5, "max": 50, "step": 5, "unit": "%", "default": 15 },
+    { "type": "range", "id": "tier2_qty", "label": "Tier 2: items", "min": 2, "max": 8, "step": 1, "default": 3 },
+    { "type": "range", "id": "tier2_pct", "label": "Tier 2: % off", "min": 5, "max": 50, "step": 5, "unit": "%", "default": 25 },
+    { "type": "product", "id": "gift_product", "label": "Free gift at tier 2 (optional)", "info": "Added to the cart automatically at tier 2. Make it free with a Buy X Get Y automatic discount." },
+    { "type": "text", "id": "gift_label", "label": "Gift label", "default": "Free holiday gift box" },
+    { "type": "text", "id": "fine_print", "label": "Fine print", "default": "Savings apply automatically at checkout. Complimentary gift shipping on orders $100+." },
+
+    { "type": "header", "content": "Brand colors and fonts" },
+    { "type": "color", "id": "color_forest", "label": "Forest Ink", "default": "#1F3A2E" },
+    { "type": "color", "id": "color_alabaster", "label": "Alabaster", "default": "#F4F0E8" },
+    { "type": "color", "id": "color_stone", "label": "Warm Stone", "default": "#D9D0C1" },
+    { "type": "color", "id": "color_gold", "label": "Antique Gold", "default": "#B8955A" },
+    { "type": "color", "id": "color_text", "label": "Body text", "default": "#1E1E1C" },
+    { "type": "checkbox", "id": "load_fonts", "label": "Load Cormorant Garamond + Jost from Google Fonts", "default": true }
+  ],
+  "presets": [
+    { "name": "A&I Gift Box Builder" }
+  ]
+}
+{% endschema %}
